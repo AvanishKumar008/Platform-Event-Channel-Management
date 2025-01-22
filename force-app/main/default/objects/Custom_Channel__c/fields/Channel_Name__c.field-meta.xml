@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Channel_Name__c</fullName>
+    <description>Add the channel name which will publish the event to external system</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Custom Channel name will be subscribed to external system</inlineHelpText>
+    <label>Channel Name</label>
+    <length>40</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
