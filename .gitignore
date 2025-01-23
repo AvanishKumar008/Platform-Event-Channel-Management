@@ -128,5 +128,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+.localdevserver
+
+#Salesforce
+.sfdx
+.sf
+.vscode
+force-app/main/default/lwc/jsconfig.json
 .sfdx/sfdx-config.json
 .sf/config.json
