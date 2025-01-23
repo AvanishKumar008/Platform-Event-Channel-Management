@@ -1,10 +1,10 @@
 {
-  "name": "salesforce-app",
+  "name": "platform-event-channel-management",
   "private": true,
   "version": "1.0.0",
-  "description": "Salesforce App",
+  "description": "Platform Event Channel Management",
   "scripts": {
-    "lint": "eslint **/{aura,lwc}/**/*.js",
+    "lint": "eslint **/lwc/**/*.js",
     "test": "npm run test:unit",
     "test:unit": "sfdx-lwc-jest",
     "test:unit:watch": "sfdx-lwc-jest --watch",
@@ -12,30 +12,39 @@
     "test:unit:coverage": "sfdx-lwc-jest --coverage",
     "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
     "prettier:verify": "prettier --check \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
-    "postinstall": "husky install",
+    "prepare": "husky || true",
     "precommit": "lint-staged"
-  },
-  "devDependencies": {
-    "@lwc/eslint-plugin-lwc": "^1.1.2",
-    "@prettier/plugin-xml": "^3.2.2",
-    "@salesforce/eslint-config-lwc": "^3.2.3",
-    "@salesforce/eslint-plugin-aura": "^2.0.0",
-    "@salesforce/eslint-plugin-lightning": "^1.0.0",
-    "@salesforce/sfdx-lwc-jest": "^5.1.0",
-    "eslint": "^9.9.1",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jest": "^28.8.1",
-    "husky": "^9.1.5",
-    "lint-staged": "^15.1.0",
-    "prettier": "^3.1.0",
-    "prettier-plugin-apex": "^2.0.1"
   },
   "lint-staged": {
     "**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}": [
       "prettier --write"
     ],
-    "**/{aura,lwc}/**/*.js": [
+    "**/lwc/**/*.js": [
       "eslint"
+    ],
+    "**/lwc/**": [
+      "sfdx-lwc-jest -- --bail --findRelatedTests --passWithNoTests"
     ]
+  },
+  "author": "AvanishKumar008",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AvanishKumar008/Platform-Event-Channel-Management"
+  },
+  "devDependencies": {
+    "@lwc/eslint-plugin-lwc": "^2.0.1",
+    "@prettier/plugin-xml": "^3.4.1",
+    "@sa11y/jest": "^7.0.0",
+    "@salesforce/eslint-config-lwc": "^3.7.1",
+    "@salesforce/eslint-plugin-lightning": "^1.0.1",
+    "@salesforce/sfdx-lwc-jest": "^7.0.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jest": "^28.11.0",
+    "eslist": "^1.0.0-beta.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.1",
+    "prettier": "^3.4.2",
+    "prettier-plugin-apex": "^2.2.2"
   }
 }

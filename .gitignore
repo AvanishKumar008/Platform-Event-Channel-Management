@@ -135,3 +135,5 @@ dist
 .sf
 .vscode
 force-app/main/default/lwc/jsconfig.json
+.sfdx/sfdx-config.json
+.sf/config.json
