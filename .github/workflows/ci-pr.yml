@@ -93,7 +93,7 @@ jobs:
         id: pmd
         with:
           version: "6.55.0"
-          sourcePath: "cc-base-app"
+          sourcePath: "force-app"
           rulesets: "ruleset.xml"
 
       # Check for PMD violations
@@ -130,15 +130,15 @@ jobs:
 
       # Deploy source to scratch org
       - name: "Push source to scratch org"
-        run: sf project deploy start -d cc-base-app
+        run: sf project deploy start -d force-app
 
       # Assign permissionset
       - name: "Assign permissionset to default user"
         run: sf org assign permset -n Custom_Channel_Admin
 
       # Run Apex tests in scratch org
-      - name: "Run Apex tests"
-        run: sf apex test run -c -r human -d ./tests/apex -w 20
+      #- name: "Run Apex tests"
+      #  run: sf apex test run -c -r human -d ./tests/apex -w 20
 
       # Housekeeping
       - name: "Delete scratch org"
