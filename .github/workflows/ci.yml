@@ -108,7 +108,7 @@ jobs:
 
       # Run Apex tests in scratch org
       - name: "Run Apex tests"
-        run: sf apex test run -c -r human -d ./tests/apex -w 20
+        run: sf apex run test
 
       # Housekeeping
       - name: "Delete scratch org"
