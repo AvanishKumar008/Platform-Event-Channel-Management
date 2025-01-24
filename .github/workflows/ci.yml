@@ -63,7 +63,7 @@ jobs:
         id: pmd
         with:
           version: "6.55.0"
-          sourcePath: "cc-base-app"
+          sourcePath: "force-app"
           rulesets: "ruleset.xml"
 
       # Check for PMD violations
@@ -100,7 +100,7 @@ jobs:
 
       # Deploy source to scratch org
       - name: "Push source to scratch org"
-        run: sf project deploy start -d cc-base-app
+        run: sf project deploy start -d force-app
 
       # Assign permissionset
       - name: "Assign permissionset to default user"
