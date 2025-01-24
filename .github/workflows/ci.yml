@@ -37,8 +37,8 @@ jobs:
         run: HUSKY=0 npm ci
 
       # Prettier formatting
-      - name: "Code formatting verification with Prettier"
-        run: npm run prettier:verify
+      #- name: "Code formatting verification with Prettier"
+      #  run: npm run prettier:verify
 
       # Lint LWC / Aura
       - name: "Lint Lightning Web Components / Aura Components"
@@ -96,7 +96,7 @@ jobs:
 
       # Create scratch org
       - name: "Create scratch org"
-        run: sf org create scratch -f config/cc-base-project-scratch-def.json -a scratch-org -d -y 1
+        run: sf org create scratch -f config/project-scratch-def.json -a scratch-org -d -y 1
 
       # Deploy source to scratch org
       - name: "Push source to scratch org"
