@@ -108,7 +108,7 @@ jobs:
 
       # Run Apex tests in scratch org
       - name: "Run Apex tests"
-        run: sf apex run test
+        run: sf apex run test --test-level RunLocalTests
 
       # Housekeeping
       - name: "Delete scratch org"
