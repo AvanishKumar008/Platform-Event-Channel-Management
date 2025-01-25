@@ -31,7 +31,7 @@ public class CustomChannelService {
   }
 
   //Create Custom Channel
-  public static void createCustomchannel(Custom_Channel__c customChannel) {
+  public static String createCustomchannel(Custom_Channel__c customChannel) {
     RestService callout = new RestService(
         Constant.baseURL + Constant.toolingsObjectURL + 'PlatformEventChannel'
       )
@@ -39,7 +39,7 @@ public class CustomChannelService {
       .setTimeout(60000);
 
     Map<string, object> innerType = new Map<string, object>();
-    innerType.put('channelType', customChannel.Channel_Type__c);
+    innerType.put('channelType', customChannel.Type__c);
     innerType.put('label', customChannel.Name);
     Map<string, object> channelBody = new Map<string, object>();
     // parmeter channel name
@@ -47,24 +47,23 @@ public class CustomChannelService {
     channelBody.put('Metadata', innerType);
 
     String response = callout.post(channelBody).getBody();
+    System.debug(response);
     Map<string, object> fileInfos = (Map<string, object>) JSON.deserializeUntyped(
       response
     );
-
+System.debug(fileInfos);
+    String channelId;
     if (fileInfos.containsKey('id')) {
-      String channelId = String.valueof(fileInfos.get('id'));
-      update new Custom_Channel__c(
-        Id = customChannel.Id,
-        Channel_Id__c = channelId
-      );
+      channelId = String.valueof(fileInfos.get('id'));
     }
+    return channelId;
   }
 
   public static List<Custom_Channel__c> getCustomChannel(
     List<String> channelIds
   ) {
     return [
-      SELECT Id, Name, Channel_Name__c, Channel_Type__c, Channel_Id__c
+      SELECT Id, Name, Channel_Name__c, Type__c, Channel_Id__c
       FROM Custom_Channel__c
       WHERE Id IN :channelIds
     ];
