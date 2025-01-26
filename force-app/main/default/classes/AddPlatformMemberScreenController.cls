@@ -1,9 +1,10 @@
 public with sharing class AddPlatformMemberScreenController {
   @AuraEnabled(cacheable=true)
-  public static UtilDTO.DualListDTO getObjectDetails() {
+  public static UtilDTO.DualListDTO getInitialDetails(String recordId) {
     UtilDTO.DualListDTO dualDTO = new UtilDTO.DualListDTO();
     try {
-      dualDTO.selectedOption = new List<String>();
+      dualDTO.customChannel = CustomChannelService.getCustomChannel(new List<String>{recordId})[0];
+      dualDTO.selectedOption = getSelectedObjectsFromRecord(recordId);
       dualDTO.options = getCDCEnabledObjects();
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
@@ -48,5 +49,31 @@ public with sharing class AddPlatformMemberScreenController {
     }
 
     return cdcObjects;
+  }
+
+  private static List<String> getSelectedObjectsFromRecord(String recordId) {
+    List<String> selectedObjects = new List<String>();
+    for (Channel_Member__c cMember : [
+      SELECT
+        Id,
+        Enriched_Fields__c,
+        Filter_Expression__c,
+        Object_Name__c,
+        Object_API_Name__c
+      FROM Channel_Member__c
+      WHERE Custom_Channel__c = :recordId AND Add_to_Channel__c = true
+    ]) {
+      selectedObjects.add(cMember.Object_API_Name__c);
+    }
+    return selectedObjects;
+  }
+
+  @AuraEnabled
+  public static void createChannelMember(){
+    try {
+      
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
   }
 }

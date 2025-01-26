@@ -11,7 +11,9 @@ public with sharing class CustomChannelController {
         channel.Channel_Name__c = channelProps.get('name')+'__chn';
         channel.Type__c = channelProps.get('type');
 
-        insert channel;
+        if ( Schema.sObjectType.Custom_Channel__c.isCreateable() ) {
+            insert channel;
+        }
         createCustomChannel(channel.Id);
     }
 
@@ -22,7 +24,9 @@ public with sharing class CustomChannelController {
 
         if(String.isNotBlank(platformChannelId)){
             channel.Channel_Id__c = platformChannelId;
-            update channel;
+            if ( Schema.sObjectType.Custom_Channel__c.isUpdateable() ) {
+                update channel;
+            }
         }
     }
 }
