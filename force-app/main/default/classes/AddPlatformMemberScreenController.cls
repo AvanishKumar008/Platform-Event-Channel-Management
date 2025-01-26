@@ -61,7 +61,7 @@ public with sharing class AddPlatformMemberScreenController {
         Object_Name__c,
         Object_API_Name__c
       FROM Channel_Member__c
-      WHERE Custom_Channel__c = :recordId AND Add_to_Channel__c = true
+      WHERE Custom_Channel__c = :recordId AND Add_to_Channel__c = true WITH SECURITY_ENFORCED
     ]) {
       selectedObjects.add(cMember.Object_API_Name__c);
     }

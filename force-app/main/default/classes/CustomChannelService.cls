@@ -1,4 +1,4 @@
-public class CustomChannelService {
+public with sharing class CustomChannelService {
   //Check Channel Exist or not
   public static String isChannelExist(String chnName) {
     String query =
@@ -65,7 +65,7 @@ System.debug(fileInfos);
     return [
       SELECT Id, Name, Channel_Name__c, Type__c, Channel_Id__c
       FROM Custom_Channel__c
-      WHERE Id IN :channelIds
+      WHERE Id IN :channelIds WITH SECURITY_ENFORCED
     ];
   }
 }
