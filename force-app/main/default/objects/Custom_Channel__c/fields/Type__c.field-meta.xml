@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Channel_Type__c</fullName>
-    <inlineHelpText
-  >data - Change Data Capture channel corresponding to the selected entities.
+    <fullName>Type__c</fullName>
+    <inlineHelpText>data - Change Data Capture channel corresponding to the selected entities.
 event - A channel that contains platform events.</inlineHelpText>
-    <label>Channel Type</label>
+    <label>Type</label>
     <required>true</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

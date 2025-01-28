@@ -1,4 +1,4 @@
-public class ChannelMemberService {
+public without sharing class ChannelMemberService {
   //Fetch the Platform Member ID for the update
   public static String getPlatfromMemberId(Channel_Member__c channelMember) {
     String entityName = '';
@@ -88,12 +88,12 @@ public class ChannelMemberService {
         Id,
         Enriched_Fields__c,
         Filter_Expression__c,
-        Object_Name__c,
+        Member_Name__c,
         Object_API_Name__c,
         Member_Id__c,
         Custom_Channel__r.Channel_Id__c
       FROM Channel_Member__c
-      WHERE Id IN :channelMemberIds
+      WHERE Id IN :channelMemberIds WITH SECURITY_ENFORCED
     ];
   }
 
@@ -117,17 +117,14 @@ public class ChannelMemberService {
     }
     // parameter channel name
     cmwMetadata.eventChannel =
-      channelMember.Custom_Channel__r.Channel_Name__c + '__chn';
+      channelMember.Custom_Channel__r.Channel_Name__c;
     String objName = channelMember.Object_API_Name__c.trim();
     if (objName.endsWith('__c')) {
       cmwMetadata.selectedEntity = objName.replace('__c', '__ChangeEvent');
     } else {
       cmwMetadata.selectedEntity = objName + 'ChangeEvent';
     }
-    cmDTO.fullname =
-      channelMember.Custom_Channel__r.Channel_Name__c +
-      '_chn_' +
-      cmwMetadata.selectedEntity;
+    cmDTO.fullname = channelMember.Member_Name__c;
     cmDTO.Metadata = cmwMetadata;
     return cmDTO;
   }
