@@ -37,8 +37,18 @@
         action.setCallback(this, function (response) {
             let state = response.getState();
             if (state === "SUCCESS") {
-                $A.get("e.force:closeQuickAction").fire();
-                $A.get("e.force:refreshView").fire();
+                var recordId = response.getReturnValue(); // Get the newly created record ID
+    
+                // Redirect to the record page
+                var navService = component.find("navService");
+                var pageReference = {
+                    type: "standard__recordPage",
+                    attributes: {
+                        recordId: recordId,
+                        actionName: "view" // Options: view, edit, clone
+                    }
+                };
+                navService.navigate(pageReference);
             } else {
                 alert("Error creating Custom Channel: " + response.getError()[0].message);
             }

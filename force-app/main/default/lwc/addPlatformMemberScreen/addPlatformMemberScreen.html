@@ -1,5 +1,8 @@
 <template>
   <lightning-card title="Add Platform Channel Member">
+    <span slot="actions">
+      <lightning-button label="Save" onclick={handleSaveMember}></lightning-button>
+    </span>
   <lightning-layout>
     <lightning-layout-item padding="around-small">
       <lightning-dual-listbox

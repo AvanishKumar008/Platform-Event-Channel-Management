@@ -58,7 +58,6 @@ public with sharing class AddPlatformMemberScreenController {
         Id,
         Enriched_Fields__c,
         Filter_Expression__c,
-        Object_Name__c,
         Object_API_Name__c
       FROM Channel_Member__c
       WHERE Custom_Channel__c = :recordId AND Add_to_Channel__c = true WITH SECURITY_ENFORCED
@@ -69,11 +68,38 @@ public with sharing class AddPlatformMemberScreenController {
   }
 
   @AuraEnabled
-  public static void createChannelMember(){
+  public static void createAndRemoveChannelMember(Custom_Channel__c customChannel, List<String> memberToBeAdded, List<String> memberToBeRemoved){
     try {
-      
+      List<Channel_Member__c> membersToBeUpsert = new List<Channel_Member__c>();
+      for (String objName : memberToBeAdded) {
+        membersToBeUpsert.add(new Channel_Member__c(
+          Custom_Channel__c = customChannel.Id,
+          Object_API_Name__c = objName,
+          Member_Name__c = generateChannelMemberFullName(objName, customChannel.Channel_Name__c),
+          Add_to_Channel__c = true,
+          Status__c = 'Pending'
+        ));
+      }
+      for (String objName : memberToBeRemoved) {
+        membersToBeUpsert.add(new Channel_Member__c(
+          Member_Name__c = generateChannelMemberFullName(objName, customChannel.Channel_Name__c),
+          Add_to_Channel__c = false,
+          Error_Details__c = null,
+          Status__c = 'Pending'
+        ));
+      }
+      upsert membersToBeUpsert Member_Name__c;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }
+  }
+
+  private static String generateChannelMemberFullName(String objName, String channelFullName){
+    String memberFullName = channelFullName.replace('__chn', '_chn');
+
+    objName = objName.trim();
+    memberFullName += '_' + (objName.endsWith('__c') ? objName.replace('__c', '_ChangeEvent') : objName + 'ChangeEvent');
+
+    return memberFullName;
   }
 }

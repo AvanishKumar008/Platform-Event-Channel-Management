@@ -1,9 +1,7 @@
 public with sharing class CustomChannelController {
-    //Map<String, String> channelProps = new Map<String, String>{'label'=>'test', 'name'=>'test', 'type'=>'Data'};
     
-//CustomChannelController.createCustomChannel(channelProps);
     @AuraEnabled
-    public static void createCustomChannel(Map<String, String> channelProps) {
+    public static String createCustomChannel(Map<String, String> channelProps) {
         System.debug('channelProps ------- ');
         System.debug(channelProps);
         Custom_Channel__c channel = new Custom_Channel__c();
@@ -15,6 +13,8 @@ public with sharing class CustomChannelController {
             insert channel;
         }
         createCustomChannel(channel.Id);
+
+        return channel.Id;
     }
 
     @future(callout=true)

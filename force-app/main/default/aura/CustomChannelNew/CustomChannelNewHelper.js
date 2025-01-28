@@ -18,7 +18,7 @@
         // Remove leading or trailing underscores
         name = name.replace(/^_+|_+$/g, '');
 
-        return name;
+        return name.length > 35? name.substring(0,35) : name;
     },
     handleNameValidation: function (component) {
         let nameInput = component.find("nameInput");
