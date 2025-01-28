@@ -19,24 +19,16 @@ public without sharing class ChannelMemberService {
 			channelMember.Member_Id__c +
 			'\'';
 
-		RestService callout = new RestService(
-				Constant.baseURL +
-					Constant.toolingQueryURL +
-					query.replace(' ', '+')
-			)
+		RestService callout = new RestService(Constant.baseURL + Constant.toolingQueryURL + query.replace(' ', '+'))
 			.setHeaders(Constant.defaultHeaders)
 			.setTimeout(60000);
 		String response = callout.get().getBody();
 		return response;
 	}
 
-	public static void createCustomChannelMember(
-		Channel_Member__c channelMember
-	) {
+	public static void createCustomChannelMember(Channel_Member__c channelMember) {
 		RestService callout = new RestService(
-				Constant.baseURL +
-					Constant.toolingsObjectURL +
-					'PlatformEventChannelMember'
+				Constant.baseURL + Constant.toolingsObjectURL + 'PlatformEventChannelMember'
 			)
 			.setHeaders(Constant.defaultHeaders)
 			.setTimeout(60000);
@@ -44,37 +36,26 @@ public without sharing class ChannelMemberService {
 		String response = callout.post(setupobject(channelMember)).getBody();
 	}
 
-	public static void updateCustomChannelMember(
-		Channel_Member__c channelMember
-	) {
+	public static void updateCustomChannelMember(Channel_Member__c channelMember) {
 		String entityId = getPlatfromMemberId(channelMember);
 		if (entityId != null) {
 			RestService callout = new RestService(
-					Constant.baseURL +
-						Constant.toolingsObjectURL +
-						'PlatformEventChannelMember/' +
-						entityId
+					Constant.baseURL + Constant.toolingsObjectURL + 'PlatformEventChannelMember/' + entityId
 				)
 				.setHeaders(Constant.defaultHeaders)
 				.setTimeout(60000);
 
-			String response = callout.patch(setupobject(channelMember))
-				.getBody();
+			String response = callout.patch(setupobject(channelMember)).getBody();
 		} else {
 			createCustomChannelMember(channelMember);
 		}
 	}
 
-	public static void deleteCustomChannelMember(
-		Channel_Member__c channelMember
-	) {
+	public static void deleteCustomChannelMember(Channel_Member__c channelMember) {
 		String entityId = getPlatfromMemberId(channelMember);
 		if (entityId != null) {
 			RestService callout = new RestService(
-					Constant.baseURL +
-						Constant.toolingsObjectURL +
-						'PlatformEventChannelMember/' +
-						entityId
+					Constant.baseURL + Constant.toolingsObjectURL + 'PlatformEventChannelMember/' + entityId
 				)
 				.setHeaders(Constant.defaultHeaders)
 				.setTimeout(60000);
@@ -83,9 +64,7 @@ public without sharing class ChannelMemberService {
 		}
 	}
 
-	public static List<Channel_Member__c> getChannelMember(
-		List<String> channelMemberIds
-	) {
+	public static List<Channel_Member__c> getChannelMember(List<String> channelMemberIds) {
 		return [
 			SELECT
 				Id,
@@ -101,18 +80,14 @@ public without sharing class ChannelMemberService {
 		];
 	}
 
-	public static ChannelMemberDTO setupobject(
-		Channel_Member__c channelMember
-	) {
+	public static ChannelMemberDTO setupobject(Channel_Member__c channelMember) {
 		ChannelMemberDTO cmDTO = new ChannelMemberDTO();
 		ChannelMemberDTO.Metadata cmwMetadata = new ChannelMemberDTO.Metadata();
 
 		list<ChannelMemberDTO.enrichedFields> enrichedFieldslist = new List<ChannelMemberDTO.enrichedFields>();
 
 		if (String.isNotBlank(channelMember.Enriched_Fields__c)) {
-			for (
-				string fld : channelMember.Enriched_Fields__c.trim().split(',')
-			) {
+			for (string fld : channelMember.Enriched_Fields__c.trim().split(',')) {
 				ChannelMemberDTO.enrichedFields enRichfields = new ChannelMemberDTO.enrichedFields();
 				enRichfields.name = fld.trim();
 				enrichedFieldslist.add(enRichfields);
@@ -127,10 +102,7 @@ public without sharing class ChannelMemberService {
 		cmwMetadata.eventChannel = channelMember.Custom_Channel__r.Channel_Name__c;
 		String objName = channelMember.Object_API_Name__c.trim();
 		if (objName.endsWith('__c')) {
-			cmwMetadata.selectedEntity = objName.replace(
-				'__c',
-				'__ChangeEvent'
-			);
+			cmwMetadata.selectedEntity = objName.replace('__c', '__ChangeEvent');
 		} else {
 			cmwMetadata.selectedEntity = objName + 'ChangeEvent';
 		}

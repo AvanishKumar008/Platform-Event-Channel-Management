@@ -52,10 +52,7 @@
 				};
 				navService.navigate(pageReference);
 			} else {
-				alert(
-					'Error creating Custom Channel: ' +
-						response.getError()[0].message
-				);
+				alert('Error creating Custom Channel: ' + response.getError()[0].message);
 			}
 		});
 

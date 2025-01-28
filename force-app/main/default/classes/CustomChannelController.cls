@@ -18,12 +18,8 @@ public with sharing class CustomChannelController {
 
 	@future(callout=true)
 	public static void createCustomChannel(String channelId) {
-		Custom_Channel__c channel = CustomChannelService.getCustomChannel(
-			new List<String>{ channelId }
-		)[0];
-		String platformChannelId = CustomChannelService.createCustomChannel(
-			channel
-		);
+		Custom_Channel__c channel = CustomChannelService.getCustomChannel(new List<String>{ channelId })[0];
+		String platformChannelId = CustomChannelService.createCustomChannel(channel);
 
 		if (String.isNotBlank(platformChannelId)) {
 			channel.Channel_Id__c = platformChannelId;

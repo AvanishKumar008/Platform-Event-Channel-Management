@@ -28,12 +28,8 @@ export default class AddPlatformMemberScreen extends LightningElement {
 	}
 
 	handleSaveMember() {
-		let objectToBeAdded = this.newSelectedObjects.filter(
-			(e) => !this.selectedObjects.includes(e)
-		);
-		let objectToBeRemoved = this.selectedObjects.filter(
-			(e) => !this.newSelectedObjects.includes(e)
-		);
+		let objectToBeAdded = this.newSelectedObjects.filter((e) => !this.selectedObjects.includes(e));
+		let objectToBeRemoved = this.selectedObjects.filter((e) => !this.newSelectedObjects.includes(e));
 		console.log('objectToBeAdded', objectToBeAdded);
 		console.log('objectToBeRemoved', objectToBeRemoved);
 

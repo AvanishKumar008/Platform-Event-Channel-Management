@@ -1,6 +1,4 @@
-<aura:component
-	implements="lightning:actionOverride"
-	controller="CustomChannelController">
+<aura:component implements="lightning:actionOverride" controller="CustomChannelController">
 	<lightning:navigation aura:id="navService" />
 	<aura:attribute name="name" type="String" />
 	<aura:attribute name="label" type="String" />
@@ -11,26 +9,24 @@
 		default="[
     {'label': 'Data', 'value': 'Data'},
     {'label': 'Event', 'value': 'Event'}
-    ]" />
+    ]"
+	/>
 
 	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
 	<lightning:card title="New Custom Channel" iconName="action:new">
 		<div class="c-container">
 			<lightning:layout multipleRows="true">
-				<lightning:layoutItem
-					size="6"
-					class="slds-p-horizontal_small slds-p-vertical_x-small">
+				<lightning:layoutItem size="6" class="slds-p-horizontal_small slds-p-vertical_x-small">
 					<lightning:input
 						name="label"
 						label="Label"
 						value="{!v.label}"
 						required="true"
-						onblur="{!c.handleLabelChange}" />
+						onblur="{!c.handleLabelChange}"
+					/>
 				</lightning:layoutItem>
-				<lightning:layoutItem
-					size="6"
-					class="slds-p-horizontal_small slds-p-vertical_x-small">
+				<lightning:layoutItem size="6" class="slds-p-horizontal_small slds-p-vertical_x-small">
 					<lightning:input
 						name="name"
 						label="Name"
@@ -38,32 +34,27 @@
 						required="true"
 						onblur="{!c.handleNameBlur}"
 						aura:id="nameInput"
-						maxlength="35" />
+						maxlength="35"
+					/>
 				</lightning:layoutItem>
-				<lightning:layoutItem
-					size="6"
-					class="slds-p-horizontal_small slds-p-vertical_x-small">
+				<lightning:layoutItem size="6" class="slds-p-horizontal_small slds-p-vertical_x-small">
 					<lightning:combobox
 						name="type"
 						label="Type"
 						value="{!v.type}"
 						placeholder="Select Type"
 						required="true"
-						options="{! v.options }" />
+						options="{! v.options }"
+					/>
 				</lightning:layoutItem>
-				<lightning:layoutItem
-					size="12"
-					padding="around-small"
-					class="slds-text-align_center">
-					<lightning:button
-						variant="brand"
-						label="Save"
-						onclick="{!c.handleSave}" />
+				<lightning:layoutItem size="12" padding="around-small" class="slds-text-align_center">
+					<lightning:button variant="brand" label="Save" onclick="{!c.handleSave}" />
 					<lightning:button
 						variant="neutral"
 						label="Cancel"
 						onclick="{!c.handleCancel}"
-						class="slds-m-left_x-small" />
+						class="slds-m-left_x-small"
+					/>
 				</lightning:layoutItem>
 			</lightning:layout>
 		</div>

@@ -126,15 +126,8 @@ public inherited sharing class RestService {
 	private void setEndpointAndParameters() {
 		String parameterString = '';
 		for (String parameterKey : this.parameters.keySet()) {
-			String paremeterDelimiter = String.isEmpty(parameterString) &&
-				!this.endpoint.contains('?')
-				? '?'
-				: '&';
-			parameterString +=
-				paremeterDelimiter +
-				parameterKey +
-				'=' +
-				this.parameters.get(parameterKey);
+			String paremeterDelimiter = String.isEmpty(parameterString) && !this.endpoint.contains('?') ? '?' : '&';
+			parameterString += paremeterDelimiter + parameterKey + '=' + this.parameters.get(parameterKey);
 		}
 		this.request.setEndpoint(this.endpoint + parameterString);
 	}
@@ -151,10 +144,7 @@ public inherited sharing class RestService {
 		if (requestBody instanceof Blob) {
 			this.request.setBodyAsBlob((Blob) requestBody);
 			if (contentTypeNotSet) {
-				this.setHeader(
-					'Content-Type',
-					'multipart/form-data; charset=utf-8'
-				);
+				this.setHeader('Content-Type', 'multipart/form-data; charset=utf-8');
 			}
 		} else if (requestBody instanceof Dom.Document) {
 			this.request.setBodyDocument((Dom.Document) requestBody);
@@ -164,10 +154,7 @@ public inherited sharing class RestService {
 		} else {
 			this.request.setBody(Json.serialize(requestBody));
 			if (contentTypeNotSet) {
-				this.setHeader(
-					'Content-Type',
-					'application/json; charset=utf-8'
-				);
+				this.setHeader('Content-Type', 'application/json; charset=utf-8');
 			}
 		}
 	}

@@ -3,9 +3,7 @@ public with sharing class AddPlatformMemberScreenController {
 	public static UtilDTO.DualListDTO getInitialDetails(String recordId) {
 		UtilDTO.DualListDTO dualDTO = new UtilDTO.DualListDTO();
 		try {
-			dualDTO.customChannel = CustomChannelService.getCustomChannel(
-				new List<String>{ recordId }
-			)[0];
+			dualDTO.customChannel = CustomChannelService.getCustomChannel(new List<String>{ recordId })[0];
 			dualDTO.selectedOption = getSelectedObjectsFromRecord(recordId);
 			dualDTO.options = getCDCEnabledObjects();
 		} catch (Exception e) {
@@ -21,11 +19,7 @@ public with sharing class AddPlatformMemberScreenController {
 			// Get the object describe to show label
 			Schema.DescribeSObjectResult describe = obj.getDescribe();
 			String optionValue = describe.getName();
-			String optionLabel =
-				describe.getLabel() +
-				' (' +
-				describe.getName() +
-				')';
+			String optionLabel = describe.getLabel() + ' (' + describe.getName() + ')';
 			objectOptions.add(new UtilDTO.OptionDTO(optionLabel, optionValue));
 		}
 		objectOptions.sort();
@@ -43,13 +37,8 @@ public with sharing class AddPlatformMemberScreenController {
 			// Check if the object name ends with 'ChangeEvent'
 			if (objName.toLowerCase().endsWith('changeevent')) {
 				// Remove 'ChangeEvent' suffix to get the original object name
-				String originalObjName = objName.toLowerCase()
-					.replace('__changeevent', '__c')
-					.removeEnd('changeevent');
-				cdcObjects.put(
-					originalObjName,
-					globalDescribe.get(originalObjName)
-				);
+				String originalObjName = objName.toLowerCase().replace('__changeevent', '__c').removeEnd('changeevent');
+				cdcObjects.put(originalObjName, globalDescribe.get(originalObjName));
 			}
 		}
 
@@ -59,11 +48,7 @@ public with sharing class AddPlatformMemberScreenController {
 	private static List<String> getSelectedObjectsFromRecord(String recordId) {
 		List<String> selectedObjects = new List<String>();
 		for (Channel_Member__c cMember : [
-			SELECT
-				Id,
-				Enriched_Fields__c,
-				Filter_Expression__c,
-				Object_API_Name__c
+			SELECT Id, Enriched_Fields__c, Filter_Expression__c, Object_API_Name__c
 			FROM Channel_Member__c
 			WHERE Custom_Channel__c = :recordId AND Add_to_Channel__c = TRUE
 			WITH SECURITY_ENFORCED
@@ -86,10 +71,7 @@ public with sharing class AddPlatformMemberScreenController {
 					new Channel_Member__c(
 						Custom_Channel__c = customChannel.Id,
 						Object_API_Name__c = objName,
-						Member_Name__c = generateChannelMemberFullName(
-							objName,
-							customChannel.Channel_Name__c
-						),
+						Member_Name__c = generateChannelMemberFullName(objName, customChannel.Channel_Name__c),
 						Add_to_Channel__c = true,
 						Status__c = 'Pending'
 					)
@@ -98,10 +80,7 @@ public with sharing class AddPlatformMemberScreenController {
 			for (String objName : memberToBeRemoved) {
 				membersToBeUpsert.add(
 					new Channel_Member__c(
-						Member_Name__c = generateChannelMemberFullName(
-							objName,
-							customChannel.Channel_Name__c
-						),
+						Member_Name__c = generateChannelMemberFullName(objName, customChannel.Channel_Name__c),
 						Add_to_Channel__c = false,
 						Error_Details__c = null,
 						Status__c = 'Pending'
@@ -119,18 +98,12 @@ public with sharing class AddPlatformMemberScreenController {
 		}
 	}
 
-	private static String generateChannelMemberFullName(
-		String objName,
-		String channelFullName
-	) {
+	private static String generateChannelMemberFullName(String objName, String channelFullName) {
 		String memberFullName = channelFullName.replace('__chn', '_chn');
 
 		objName = objName.trim();
 		memberFullName +=
-			'_' +
-			(objName.endsWith('__c')
-				? objName.replace('__c', '_ChangeEvent')
-				: objName + 'ChangeEvent');
+			'_' + (objName.endsWith('__c') ? objName.replace('__c', '_ChangeEvent') : objName + 'ChangeEvent');
 
 		return memberFullName;
 	}

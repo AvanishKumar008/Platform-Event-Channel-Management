@@ -1,22 +1,13 @@
 public with sharing class CustomChannelService {
 	//Check Channel Exist or not
 	public static String isChannelExist(String chnName) {
-		String query =
-			'SELECT Id,fullname FROM PlatformEventChannel where developerName=\'' +
-			chnName +
-			'\'';
+		String query = 'SELECT Id,fullname FROM PlatformEventChannel where developerName=\'' + chnName + '\'';
 
-		RestService callout = new RestService(
-				Constant.baseURL +
-					Constant.toolingQueryURL +
-					query.replace(' ', '+')
-			)
+		RestService callout = new RestService(Constant.baseURL + Constant.toolingQueryURL + query.replace(' ', '+'))
 			.setHeaders(Constant.defaultHeaders)
 			.setTimeout(60000);
 		String response = callout.get().getBody();
-		Map<string, object> fileInfos = (Map<string, object>) JSON.deserializeUntyped(
-			response
-		);
+		Map<string, object> fileInfos = (Map<string, object>) JSON.deserializeUntyped(response);
 		if (fileInfos.containsKey('records')) {
 			List<Object> stIds = (List<Object>) fileInfos.get('records');
 
@@ -34,11 +25,7 @@ public with sharing class CustomChannelService {
 
 	//Create Custom Channel
 	public static String createCustomchannel(Custom_Channel__c customChannel) {
-		RestService callout = new RestService(
-				Constant.baseURL +
-					Constant.toolingsObjectURL +
-					'PlatformEventChannel'
-			)
+		RestService callout = new RestService(Constant.baseURL + Constant.toolingsObjectURL + 'PlatformEventChannel')
 			.setHeaders(Constant.defaultHeaders)
 			.setTimeout(60000);
 
@@ -52,9 +39,7 @@ public with sharing class CustomChannelService {
 
 		String response = callout.post(channelBody).getBody();
 		System.debug(response);
-		Map<string, object> fileInfos = (Map<string, object>) JSON.deserializeUntyped(
-			response
-		);
+		Map<string, object> fileInfos = (Map<string, object>) JSON.deserializeUntyped(response);
 		System.debug(fileInfos);
 		String channelId;
 		if (fileInfos.containsKey('id')) {
@@ -63,9 +48,7 @@ public with sharing class CustomChannelService {
 		return channelId;
 	}
 
-	public static List<Custom_Channel__c> getCustomChannel(
-		List<String> channelIds
-	) {
+	public static List<Custom_Channel__c> getCustomChannel(List<String> channelIds) {
 		return [
 			SELECT Id, Name, Channel_Name__c, Type__c, Channel_Id__c
 			FROM Custom_Channel__c
