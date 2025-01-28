@@ -21,5 +21,7 @@ public with sharing class UtilDTO {
     public List<String> selectedOption;
     @AuraEnabled
     public List<OptionDTO> options;
+    @AuraEnabled
+    public Custom_Channel__c customChannel;
   }
 }
