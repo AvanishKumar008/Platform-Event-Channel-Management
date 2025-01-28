@@ -1,4 +1,4 @@
-public class ChannelMemberService {
+public without sharing class ChannelMemberService {
   //Fetch the Platform Member ID for the update
   public static String getPlatfromMemberId(Channel_Member__c channelMember) {
     String entityName = '';
@@ -93,7 +93,7 @@ public class ChannelMemberService {
         Member_Id__c,
         Custom_Channel__r.Channel_Id__c
       FROM Channel_Member__c
-      WHERE Id IN :channelMemberIds
+      WHERE Id IN :channelMemberIds WITH SECURITY_ENFORCED
     ];
   }
 
