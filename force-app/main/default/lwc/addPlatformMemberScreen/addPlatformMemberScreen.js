@@ -34,7 +34,7 @@ export default class AddPlatformMemberScreen extends LightningElement {
     console.log('objectToBeRemoved',objectToBeRemoved);
 
 		createAndRemoveChannelMember({ customChannel : this.customChannel, memberToBeAdded : objectToBeAdded, memberToBeRemoved : objectToBeRemoved })
-		.then(result => {
+		.then(() => {
       this.selectedObjects = this.newSelectedObjects;
         Toast.show({
           label: 'Success',
