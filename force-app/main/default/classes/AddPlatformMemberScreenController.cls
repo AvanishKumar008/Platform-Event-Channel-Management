@@ -88,7 +88,7 @@ public with sharing class AddPlatformMemberScreenController {
           Status__c = 'Pending'
         ));
       }
-      if ( Schema.sObjectType.Channel_Member__c.isUpdateable() ) {
+      if ( Schema.sObjectType.Channel_Member__c.isCreateable() && Schema.sObjectType.Channel_Member__c.isUpdateable() ) {
         upsert membersToBeUpsert Member_Name__c;
       }
     } catch (Exception e) {
