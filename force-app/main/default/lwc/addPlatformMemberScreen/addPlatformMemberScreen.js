@@ -11,17 +11,31 @@ export default class AddPlatformMemberScreen extends LightningElement {
 	objects = [];
 	selectedObjects = [];
 	newSelectedObjects = [];
+	wireInitData;
 
 	@wire(getInitialDetails, { recordId: '$recordId' })
-	wiredContacts({ error, data }) {
-		if (data) {
-			this.objects = data.options;
-			this.selectedObjects = data.selectedOption;
-			this.customChannel = data.customChannel;
-		} else if (error) {
+	wiredInitData(result) {
+		this.wireInitData = result;
+		if (result.data) {
+			this.objects = result.data.options;
+			this.selectedObjects = result.data.selectedOption;
+			this.customChannel = result.data.customChannel;
+		} else if (result.error) {
 			this.objects = [];
 			this.selectedObjects = [];
 		}
+	}
+
+	get inProgressRequest() {
+		return this.customChannel && this.customChannel.Member_Update_Status__c === 'Pending';
+	}
+
+	get errorRequest() {
+		return this.customChannel && this.customChannel.Member_Update_Status__c === 'Error';
+	}
+
+	refreshLatestData() {
+		refreshApex(this.wireInitData);
 	}
 
 	handleMemberChange(event) {
@@ -31,8 +45,6 @@ export default class AddPlatformMemberScreen extends LightningElement {
 	handleSaveMember() {
 		let objectToBeAdded = this.newSelectedObjects.filter((e) => !this.selectedObjects.includes(e));
 		let objectToBeRemoved = this.selectedObjects.filter((e) => !this.newSelectedObjects.includes(e));
-		console.log('objectToBeAdded', objectToBeAdded);
-		console.log('objectToBeRemoved', objectToBeRemoved);
 
 		createAndRemoveChannelMember({
 			customChannel: this.customChannel,
@@ -41,10 +53,11 @@ export default class AddPlatformMemberScreen extends LightningElement {
 		})
 			.then(() => {
 				this.selectedObjects = this.newSelectedObjects;
+				this.refreshLatestData();
 				Toast.show(
 					{
 						label: 'Success',
-						message: 'Member Added/Removal Done successfully',
+						message: 'Member Added/Removal successfully started',
 						variant: 'success'
 					},
 					this

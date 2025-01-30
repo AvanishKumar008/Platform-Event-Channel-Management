@@ -3,8 +3,26 @@
 		<span slot="actions">
 			<lightning-button label="Save" onclick={handleSaveMember}></lightning-button>
 		</span>
-		<lightning-layout>
-			<lightning-layout-item padding="around-small">
+		<lightning-layout multiple-rows>
+			<lightning-layout-item size="12" padding="around-small">
+				<div class="slds-notify slds-notify_alert slds-alert_warning" role="alert" lwc:if={inProgressRequest}>
+					<h2>
+						Platform Channel Member Addition/Updation is in progress
+						<lightning-button-icon
+							icon-name="utility:refresh"
+							variant="container"
+							alternative-text="Refresh"
+							class="slds-m-left_xx-small"
+							title="Refresh"
+							onclick={refreshLatestData}
+						></lightning-button-icon>
+					</h2>
+				</div>
+				<div class="slds-notify slds-notify_alert slds-alert_error" role="alert" lwc:if={errorRequest}>
+					<h2>Platform Channel Member Addition/Updation is have some errors</h2>
+				</div>
+			</lightning-layout-item>
+			<lightning-layout-item size="12" padding="around-small">
 				<lightning-dual-listbox
 					name="platformmember"
 					label="Select Object"
