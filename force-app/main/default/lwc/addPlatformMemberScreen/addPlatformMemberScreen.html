@@ -1,21 +1,21 @@
 <template>
-  <lightning-card title="Add Platform Channel Member">
-    <span slot="actions">
-      <lightning-button label="Save" onclick={handleSaveMember}></lightning-button>
-    </span>
-  <lightning-layout>
-    <lightning-layout-item padding="around-small">
-      <lightning-dual-listbox
-        name="platformmember"
-        label="Select Object"
-        source-label="Available"
-        selected-label="Selected"
-        field-level-help="Select CDC enabled object"
-        options={objects}
-        onchange={handleMemberChange}
-        value={selectedObjects}
-      ></lightning-dual-listbox>
-    </lightning-layout-item>
-  </lightning-layout>
-</lightning-card>
+	<lightning-card title="Add Platform Channel Member">
+		<span slot="actions">
+			<lightning-button label="Save" onclick={handleSaveMember}></lightning-button>
+		</span>
+		<lightning-layout>
+			<lightning-layout-item padding="around-small">
+				<lightning-dual-listbox
+					name="platformmember"
+					label="Select Object"
+					source-label="Available"
+					selected-label="Selected"
+					field-level-help="Select CDC enabled object"
+					options={objects}
+					onchange={handleMemberChange}
+					value={selectedObjects}
+				></lightning-dual-listbox>
+			</lightning-layout-item>
+		</lightning-layout>
+	</lightning-card>
 </template>
