@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Status__c</fullName>
-    <label>Status</label>
+    <fullName>Member_Update_Status__c</fullName>
+    <label>Member Update Status</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

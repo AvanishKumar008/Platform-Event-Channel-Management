@@ -1,5 +1,6 @@
 import { LightningElement, wire, api } from 'lwc';
 import Toast from 'lightning/toast';
+import { refreshApex } from '@salesforce/apex';
 
 import getInitialDetails from '@salesforce/apex/AddPlatformMemberScreenController.getInitialDetails';
 import createAndRemoveChannelMember from '@salesforce/apex/AddPlatformMemberScreenController.createAndRemoveChannelMember';
