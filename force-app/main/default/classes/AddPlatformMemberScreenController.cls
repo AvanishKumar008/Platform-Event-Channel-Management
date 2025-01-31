@@ -1,4 +1,4 @@
-public with sharing class AddPlatformMemberScreenController {
+public without sharing class AddPlatformMemberScreenController {
 	@AuraEnabled(cacheable=true)
 	public static UtilDTO.DualListDTO getInitialDetails(String recordId) {
 		UtilDTO.DualListDTO dualDTO = new UtilDTO.DualListDTO();

@@ -50,7 +50,7 @@ public with sharing class CustomChannelService {
 
 	public static List<Custom_Channel__c> getCustomChannel(List<String> channelIds) {
 		return [
-			SELECT Id, Name, Channel_Name__c, Type__c, Channel_Id__c
+			SELECT Id, Name, Channel_Name__c, Type__c, Channel_Id__c, Member_Update_Status__c
 			FROM Custom_Channel__c
 			WHERE Id IN :channelIds
 			WITH SECURITY_ENFORCED
