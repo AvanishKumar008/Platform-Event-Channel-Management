@@ -26,7 +26,7 @@ public without sharing class ChannelMemberService {
 		return response;
 	}
 
-	public static void createCustomChannelMember(Channel_Member__c channelMember) {
+	public static String createCustomChannelMember(Channel_Member__c channelMember) {
 		RestService callout = new RestService(
 				Constant.baseURL + Constant.toolingsObjectURL + 'PlatformEventChannelMember'
 			)
@@ -34,6 +34,20 @@ public without sharing class ChannelMemberService {
 			.setTimeout(60000);
 
 		String response = callout.post(setupobject(channelMember)).getBody();
+		Map<string, object> fileInfos = (Map<string, object>) JSON.deserializeUntyped(response);
+		if (fileInfos.containsKey('records')) {
+			List<Object> stIds = (List<Object>) fileInfos.get('records');
+
+			for (Object objLabel : stIds) {
+				Map<String, Object> label = (Map<String, Object>) objLabel;
+				if (label.get('Id') != null) {
+					return String.valueof(label.get('Id'));
+				} else {
+					return null;
+				}
+			}
+		}
+		return null;
 	}
 
 	public static void updateCustomChannelMember(Channel_Member__c channelMember) {

@@ -8,14 +8,9 @@
 				<div class="slds-notify slds-notify_alert slds-alert_warning" role="alert" lwc:if={inProgressRequest}>
 					<h2>
 						Platform Channel Member Addition/Updation is in progress
-						<lightning-button-icon
-							icon-name="utility:refresh"
-							variant="container"
-							alternative-text="Refresh"
-							class="slds-m-left_xx-small"
-							title="Refresh"
-							onclick={refreshLatestData}
-						></lightning-button-icon>
+						<lightning-button-icon icon-name="utility:refresh" variant="container"
+							alternative-text="Refresh" class="slds-m-left_xx-small" title="Refresh"
+							onclick={refreshLatestData}></lightning-button-icon>
 					</h2>
 				</div>
 				<div class="slds-notify slds-notify_alert slds-alert_error" role="alert" lwc:if={errorRequest}>
@@ -23,16 +18,12 @@
 				</div>
 			</lightning-layout-item>
 			<lightning-layout-item size="12" padding="around-small">
-				<lightning-dual-listbox
-					name="platformmember"
-					label="Select Object"
-					source-label="Available"
-					selected-label="Selected"
-					field-level-help="Select CDC enabled object"
-					options={objects}
-					onchange={handleMemberChange}
-					value={selectedObjects}
-				></lightning-dual-listbox>
+				<lightning-dual-listbox name="platformmember" label="Select Object" source-label="Available"
+					selected-label="Selected" field-level-help="Select CDC enabled object" options={objects}
+					onchange={handleMemberChange} value={selectedObjects}></lightning-dual-listbox>
+			</lightning-layout-item>
+			<lightning-layout-item size="12" padding="around-small">
+				<c-apex-test-coverage-datatable></c-apex-test-coverage-datatable>
 			</lightning-layout-item>
 		</lightning-layout>
 	</lightning-card>

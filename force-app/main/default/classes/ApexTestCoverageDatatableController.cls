@@ -3,37 +3,40 @@ public with sharing class ApexTestCoverageDatatableController {
 	public static List<ApexClassCoverageWrapper> getApexTestCoverage() {
 		List<ApexClassCoverageWrapper> coverageList = new List<ApexClassCoverageWrapper>();
 
-		// Querying ApexCodeCoverageAggregate via Tooling API
-		/*String query =
-			'SELECT ApexClassOrTriggerId, ApexClassOrTrigger.Name, NumLinesCovered, ' +
-			'NumLinesUncovered, LastModifiedById, LastModifiedBy.Name ' +
-			'FROM ApexCodeCoverageAggregate';
+		// Tooling API Query
+		String query = 'SELECT ApexClassOrTriggerId, ApexClassOrTrigger.Name, NumLinesCovered, NumLinesUncovered, LastModifiedById, LastModifiedBy.Name FROM ApexCodeCoverageAggregate';
+		RestService callout = new RestService(
+				'callout:SF_Auth' + Constant.toolingQueryURL + EncodingUtil.urlEncode(query, 'UTF-8')
+			)
+			//.setHeaders(Constant.defaultHeaders)
+			.setTimeout(60000);
+		String response = callout.get().getBody();
+		System.debug('response ---------------- ');
+		System.debug(response);
+		Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(response);
+		if (responseMap.containsKey('records')) {
+			List<Object> records = (List<Object>) responseMap.get('records');
 
-		List<ToolingAPI.QueryResult> results = ToolingAPI.query(query);
-		if (results != null && !results.isEmpty()) {
-			for (ToolingAPI.QueryResult result : results) {
-				ToolingAPI.SObject record = result.records[0];
+			for (Object obj : records) {
+				Map<String, Object> record = (Map<String, Object>) obj;
+				Decimal numCovered = (Decimal) record.get('NumLinesCovered');
+				Decimal numUncovered = (Decimal) record.get('NumLinesUncovered');
+				Decimal totalLines = numCovered + numUncovered;
+				Decimal coveragePercent = (totalLines > 0) ? (numCovered / totalLines) * 100 : 0;
 
-				Decimal totalLines =
-					(record.get('NumLinesCovered') != null ? (Decimal) record.get('NumLinesCovered') : 0) +
-					(record.get('NumLinesUncovered') != null ? (Decimal) record.get('NumLinesUncovered') : 0);
-				Decimal coveragePercent = (totalLines > 0)
-					? ((Decimal) record.get('NumLinesCovered') / totalLines) * 100
-					: 0;
+				ApexClassCoverageWrapper wrapper = new ApexClassCoverageWrapper();
+				wrapper.classId = (String) record.get('ApexClassOrTriggerId');
+				wrapper.className = (String) ((Map<String, Object>) record.get('ApexClassOrTrigger')).get('Name');
+				wrapper.numLinesCovered = (Integer) numCovered;
+				wrapper.numLinesUncovered = (Integer) numUncovered;
+				wrapper.coveragePercent = coveragePercent;
+				wrapper.lastModifiedById = (String) record.get('LastModifiedById');
+				wrapper.lastModifiedBy = (String) ((Map<String, Object>) record.get('LastModifiedBy')).get('Name');
 
-				coverageList.add(
-					new ApexClassCoverageWrapper(
-						(String) record.get('ApexClassOrTriggerId'),
-						(String) record.get('ApexClassOrTrigger.Name'),
-						(Integer) record.get('NumLinesCovered'),
-						(Integer) record.get('NumLinesUncovered'),
-						coveragePercent,
-						(String) record.get('LastModifiedById'),
-						(String) record.get('LastModifiedBy.Name')
-					)
-				);
+				coverageList.add(wrapper);
 			}
-		}*/
+		}
+
 		return coverageList;
 	}
 
@@ -52,23 +55,5 @@ public with sharing class ApexTestCoverageDatatableController {
 		public String lastModifiedById;
 		@AuraEnabled
 		public String lastModifiedBy;
-
-		public ApexClassCoverageWrapper(
-			String classId,
-			String className,
-			Integer numLinesCovered,
-			Integer numLinesUncovered,
-			Decimal coveragePercent,
-			String lastModifiedById,
-			String lastModifiedBy
-		) {
-			this.classId = classId;
-			this.className = className;
-			this.numLinesCovered = numLinesCovered;
-			this.numLinesUncovered = numLinesUncovered;
-			this.coveragePercent = coveragePercent;
-			this.lastModifiedById = lastModifiedById;
-			this.lastModifiedBy = lastModifiedBy;
-		}
 	}
 }
