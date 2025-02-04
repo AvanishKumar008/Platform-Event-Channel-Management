@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title="Apex Test Coverage">
+        <div class="slds-p-around_medium">
+            <!-- Filter Input -->
+            <lightning-input type="search" label="Search Apex Class" onchange={handleFilter}
+                placeholder="Enter class name..."></lightning-input>
+        </div>
+
+        <!-- Data Table -->
+        <lightning-datatable key-field="classId" data={formattedData} columns={columns} onsort={handleSort}
+            hide-checkbox-column="true">
+        </lightning-datatable>
+    </lightning-card>
+</template>
